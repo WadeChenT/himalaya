@@ -1,0 +1,69 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /himalayaotc
+
+logging:
+  file:
+    path: ./log
+    max-size: 500MB
+
+spring:
+  profiles:
+    active: local
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+      FAIL_ON_EMPTY_BEANS: false
+    date-format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+  datasource:
+    name: himalaya_otc_db
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 10
+      connection-timeout: 180000
+      idle-timeout: 20000
+      max-lifetime: 100000
+
+---
+spring:
+  profiles: local
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postger?currentSchema=otc_tw
+    username: postger
+    password: postger
+
+constant:
+  jwtSecret: HimalayaJwtLocal
+  jwtExpirationInMs: 28900_000
+  jwtReFreshInMs: 300_000
+  docBaseUrl: http://127.0.0.1:8880
+  mailSender:
+    defaultEncoding: UTF-8
+    mailHost: smtp.gmail.com
+    mailPort: 587
+    #  MAIL_USERNAME=admin@atomworks.io
+    username: norman.xie@atomworks.io
+    #  MAIL_PASSWORD=grcmwvuaxzmliubj
+    mailPassword: yxoqkcodwwjmkkfx
+    mailSmtpAuth: true
+    startTlsEnable: true
+    startTlsRequired: true
